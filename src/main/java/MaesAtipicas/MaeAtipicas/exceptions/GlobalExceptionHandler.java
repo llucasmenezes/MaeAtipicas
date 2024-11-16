@@ -20,4 +20,9 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse("Usuario nao encontrado!", e.getMessage());
         return  new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+
+    public ResponseEntity<ErrorResponse> handleNoId(NoId e){
+        ErrorResponse errorResponse = new ErrorResponse("Nenhum usuario", e.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 }
