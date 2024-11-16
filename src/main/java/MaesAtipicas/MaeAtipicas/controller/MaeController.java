@@ -46,6 +46,7 @@ public class MaeController {
     public ResponseEntity<MaeModel> updateMaeById(@PathVariable Long id,@RequestBody MaeModel atualizarMae){
             MaeModel updatedMae = maeService.updateMaeById(id, atualizarMae);
             return ResponseEntity.ok(updatedMae);
+
     }
 
     @DeleteMapping("/deletar/{id}")
