@@ -33,10 +33,6 @@ public class AddressController {
     @PostMapping("/criar")
     public ResponseEntity<AddressModel> createAddress(@RequestBody AddressModel addressModel){
         AddressModel createAddress = addressService.createAddress(addressModel);
-        if(createAddress.getId() != null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
         return new ResponseEntity<>(createAddress, HttpStatus.CREATED);
     }
 
