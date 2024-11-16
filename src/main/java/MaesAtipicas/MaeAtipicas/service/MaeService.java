@@ -1,6 +1,8 @@
 package MaesAtipicas.MaeAtipicas.service;
 
 import MaesAtipicas.MaeAtipicas.DTO.MaeDTO;
+import MaesAtipicas.MaeAtipicas.exceptions.CpfDuplicadoException;
+import MaesAtipicas.MaeAtipicas.exceptions.NoExistsById;
 import lombok.AllArgsConstructor;
 import MaesAtipicas.MaeAtipicas.model.MaeModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +35,18 @@ public class MaeService {
 
     //create
     public MaeModel createMae(MaeModel maeModel){
-        if(maeModel.getId() != null) {
-            throw new IllegalArgumentException("Já existe");
+        if(repository.existsByCpf(maeModel.getCpf())) {
+            throw new CpfDuplicadoException(maeModel.getCpf());
         }
         return repository.save(maeModel);
     }
 
     //findById
     public MaeModel getMaeById(Long id){
+        if(!repository.existsById(id)){
+           throw new NoExistsById(id);
+        }
+
         Optional<MaeModel> maeModel = repository.findById(id);
         return maeModel.orElse(null);
     }
@@ -48,16 +54,17 @@ public class MaeService {
     //updateById
     public MaeModel updateMaeById(Long id, MaeModel atualizarMae) {
             if(!repository.existsById(id)){
-                throw new IllegalArgumentException("Id nao encontrado!");
-            } else{
+                throw new NoExistsById(id);
+            }
                 atualizarMae.setId(id);
                 return repository.save(atualizarMae);
-            }
         }
 
     //delete
-    public Optional<Void> deleteMae(Long id){
+    public void deleteMae(Long id){
+        if(!repository.existsById(id)){
+            throw new NoExistsById(id);
+        }
         repository.deleteById(id);
-        return null;
     }
 }
