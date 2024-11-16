@@ -42,13 +42,13 @@ public class MaeService {
     }
 
     //findById
-    public MaeModel getMaeById(Long id){
+    public Optional<MaeModel> getMaeById(Long id){
         if(!repository.existsById(id)){
            throw new NoExistsById(id);
         }
 
-        Optional<MaeModel> maeModel = repository.findById(id);
-        return maeModel.orElse(null);
+         Optional<MaeModel> maeModel = repository.findById(id);
+        return maeModel;
     }
 
     //updateById

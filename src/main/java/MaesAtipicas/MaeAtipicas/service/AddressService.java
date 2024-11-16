@@ -1,5 +1,6 @@
 package MaesAtipicas.MaeAtipicas.service;
 
+import MaesAtipicas.MaeAtipicas.exceptions.NoExistsById;
 import lombok.AllArgsConstructor;
 import MaesAtipicas.MaeAtipicas.model.AddressModel;
 import org.springframework.stereotype.Service;
@@ -20,13 +21,13 @@ public class AddressService {
 
     //listar todos
     public List<AddressModel> addressModel(){
-        return repository.findAll();
+     return repository.findAll();
     }
 
     //create
     public AddressModel createAddress(AddressModel addressModel) {
-        if(addressModel.getId() != null){
-            throw new IllegalArgumentException("Já existe");
+        if(repository.existsById(addressModel.getId())){
+            throw new NoExistsById(addressModel.getId());
         }
         return repository.save(addressModel);
     }
@@ -39,22 +40,24 @@ public class AddressService {
     //update
     public AddressModel updateAddress(Long id, AddressModel addressModel){
         if (!repository.existsById(id)){
-             throw new IllegalArgumentException("Nao encontrado");
+             throw new NoExistsById(id);
         }
         addressModel.setId(id);
         return repository.save(addressModel);
     }
 
     //findById
-    public AddressModel getById(Long id){
-        Optional<AddressModel> maeModel = repository.findById(id);
-        return maeModel.orElse(null);
+    public Optional<AddressModel> getById(Long id){
+        if(!repository.existsById(id)) {
+            throw new NoExistsById(id);
+        }
+        return repository.findById(id);
     }
 
     //delete
     public void deleteAddressById(Long id){
         if (!repository.existsById(id)) {
-            throw new IllegalArgumentException("Nao encontrado");
+            throw new NoExistsById(id);
         }
         repository.deleteById(id);
     }

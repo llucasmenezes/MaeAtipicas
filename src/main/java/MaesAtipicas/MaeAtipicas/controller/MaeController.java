@@ -1,6 +1,5 @@
 package MaesAtipicas.MaeAtipicas.controller;
 
-import MaesAtipicas.MaeAtipicas.exceptions.GlobalExceptionHandler;
 import MaesAtipicas.MaeAtipicas.model.MaeModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +9,7 @@ import MaesAtipicas.MaeAtipicas.repository.MaeRepository;
 import MaesAtipicas.MaeAtipicas.service.MaeService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/mae")
@@ -24,9 +24,6 @@ public class MaeController {
     @GetMapping("/lista")
     public ResponseEntity<List<MaeModel>> getAll() {
         List<MaeModel> maeServices = maeService.getAll();
-        if (maeServices.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(maeServices);
     }
 
@@ -37,8 +34,8 @@ public class MaeController {
     }
 
     @GetMapping("/listar/{id}")  // Buscar mãe por ID
-    public ResponseEntity<MaeModel> getMaeById(@PathVariable Long id) {
-        MaeModel maeFind = maeService.getMaeById(id);
+    public ResponseEntity<Optional<MaeModel>> getMaeById(@PathVariable Long id) {
+        Optional<MaeModel> maeFind = maeService.getMaeById(id);
         return new ResponseEntity<>(maeFind, HttpStatus.OK);
     }
 
@@ -53,5 +50,6 @@ public class MaeController {
     public ResponseEntity<Void> deleteMaeById(@PathVariable Long id) {
        maeService.deleteMae(id);
         return ResponseEntity.noContent().build();
+
     }
 }

@@ -38,12 +38,8 @@ public class AddressController {
 
     //findById
     @GetMapping("/listar/{id}")
-    public ResponseEntity<AddressModel> getAddressById(@PathVariable Long id){
-        AddressModel getAddress = addressService.getById(id);
-        if(getAddress.getId() == null){
-            return ResponseEntity.notFound().build();
-        }
-
+    public ResponseEntity<Optional<AddressModel>> getAddressById(@PathVariable Long id){
+        Optional<AddressModel> getAddress = addressService.getById(id);
         return new ResponseEntity<>(getAddress, HttpStatus.OK);
     }
 
@@ -51,10 +47,6 @@ public class AddressController {
     @PutMapping("/atualizar")
     public ResponseEntity<AddressModel> putAddress(@RequestBody Long id, AddressModel addressModel){
         AddressModel updateAdress = addressService.updateAddress(id, addressModel);
-        if (updateAdress.getId() == null){
-            return ResponseEntity.notFound().build();
-        }
-
         return new ResponseEntity<>(updateAdress, HttpStatus.CREATED);
     }
 
@@ -63,10 +55,6 @@ public class AddressController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteAdress(@PathVariable Long id){
         Optional<AddressModel> deleteAddress = addressRepository.findById(id);
-        if(deleteAddress.isEmpty()){
-            return ResponseEntity.notFound().build();
-        }
-
         return ResponseEntity.noContent().build();
     }
 
