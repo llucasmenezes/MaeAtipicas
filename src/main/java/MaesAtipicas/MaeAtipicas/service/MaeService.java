@@ -64,6 +64,7 @@ public class MaeService {
                 MaeModel maeAtualizado = maeMapper.map(maeDTO);
                 maeAtualizado.setId(id);
                 MaeModel maeSalva = repository.save(maeAtualizado);
+
                 return maeMapper.map(maeSalva);
         }
 

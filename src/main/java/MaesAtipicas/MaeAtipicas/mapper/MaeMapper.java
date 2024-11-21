@@ -1,11 +1,9 @@
 package MaesAtipicas.MaeAtipicas.mapper;
 
 import MaesAtipicas.MaeAtipicas.DTO.MaeDTO;
-import MaesAtipicas.MaeAtipicas.model.AddressModel;
 import MaesAtipicas.MaeAtipicas.model.MaeModel;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 
 @Component
 public class MaeMapper {
