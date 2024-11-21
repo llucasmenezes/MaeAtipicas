@@ -25,6 +25,12 @@ public class MaeModel {
 
     private String lastName;
 
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "celular")
+    private String celular;
+
     @JsonIgnore
     @OneToMany(mappedBy = "maeModel")
     private List<AddressModel> adressModel;
