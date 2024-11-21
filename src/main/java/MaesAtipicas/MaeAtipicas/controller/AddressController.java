@@ -1,5 +1,6 @@
 package MaesAtipicas.MaeAtipicas.controller;
 
+import MaesAtipicas.MaeAtipicas.DTO.AddressDTO;
 import MaesAtipicas.MaeAtipicas.model.AddressModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,32 +22,32 @@ public class AddressController {
 
     //findALl
     @GetMapping("/listar")
-    public ResponseEntity<List<AddressModel>> findAll(){
-        List<AddressModel> addressModel = addressService.getAllAddress();
-        if(addressModel.isEmpty()){
+    public ResponseEntity<List<AddressDTO>> findAll(){
+        List<AddressDTO> addressDTO = addressService.addressAll();
+        if(addressDTO.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(addressModel, HttpStatus.OK);
+        return new ResponseEntity<>(addressDTO, HttpStatus.OK);
     }
 
     //create
     @PostMapping("/criar")
-    public ResponseEntity<AddressModel> createAddress(@RequestBody AddressModel addressModel){
-        AddressModel createAddress = addressService.createAddress(addressModel);
+    public ResponseEntity<AddressDTO> createAddress(@RequestBody AddressDTO addressDTO){
+        AddressDTO createAddress = addressService.createAddress(addressDTO);
         return new ResponseEntity<>(createAddress, HttpStatus.CREATED);
     }
 
     //findById
     @GetMapping("/listar/{id}")
-    public ResponseEntity<Optional<AddressModel>> getAddressById(@PathVariable Long id){
-        Optional<AddressModel> getAddress = addressService.getById(id);
+    public ResponseEntity<Optional<AddressDTO>> getAddressById(@PathVariable Long id){
+        Optional<AddressDTO> getAddress = addressService.getById(id);
         return new ResponseEntity<>(getAddress, HttpStatus.OK);
     }
 
     //put
     @PutMapping("/atualizar")
-    public ResponseEntity<AddressModel> putAddress(@RequestBody Long id, AddressModel addressModel){
-        AddressModel updateAdress = addressService.updateAddress(id, addressModel);
+    public ResponseEntity<AddressDTO> putAddress(@RequestBody Long id, AddressDTO addressDTO){
+        AddressDTO updateAdress = addressService.updateAddress(id, addressDTO);
         return new ResponseEntity<>(updateAdress, HttpStatus.CREATED);
     }
 
