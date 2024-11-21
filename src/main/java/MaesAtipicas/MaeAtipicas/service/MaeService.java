@@ -3,61 +3,68 @@ package MaesAtipicas.MaeAtipicas.service;
 import MaesAtipicas.MaeAtipicas.DTO.MaeDTO;
 import MaesAtipicas.MaeAtipicas.exceptions.CpfDuplicadoException;
 import MaesAtipicas.MaeAtipicas.exceptions.NoExistsById;
-import lombok.AllArgsConstructor;
+import MaesAtipicas.MaeAtipicas.mapper.MaeMapper;
 import MaesAtipicas.MaeAtipicas.model.MaeModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import MaesAtipicas.MaeAtipicas.repository.MaeRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-@AllArgsConstructor
+
 @Service
 public class MaeService {
 
-    @Autowired
-    MaeRepository repository;
 
-    public MaeDTO convertToDTO(MaeModel maeModel) {
-        return new MaeDTO(
-                maeModel.getId(),
-                maeModel.getCpf(),
-                maeModel.getName(),
-                maeModel.getLastName()
-        );
+    MaeRepository repository;
+    private final MaeMapper maeMapper;
+
+    public MaeService(MaeRepository repository, MaeMapper maeMapper){
+        this.repository = repository;
+        this.maeMapper = maeMapper;
     }
 
+
     //findALl
-    public List<MaeModel> getAll(){
-        return repository.findAll();
+    public List<MaeDTO> getAll(){
+        List<MaeModel> maes = repository.findAll();
+        return maes.stream()
+                   .map(maeMapper::map)
+                   .collect(Collectors.toList());
     }
 
     //create
-    public MaeModel createMae(MaeModel maeModel){
-        if(repository.existsByCpf(maeModel.getCpf())) {
-            throw new CpfDuplicadoException(maeModel.getCpf());
+    public MaeDTO createMae(MaeDTO maeDTO){
+        MaeModel maeModel = maeMapper.map(maeDTO);
+        if(repository.existsByCpf(maeDTO.getCpf())) {
+            throw new CpfDuplicadoException(maeDTO.getCpf());
         }
-        return repository.save(maeModel);
+        maeModel = repository.save(maeModel);
+        return maeMapper.map(maeModel);
     }
 
     //findById
-    public Optional<MaeModel> getMaeById(Long id){
+    public Optional<MaeDTO> getMaeById(Long id){
+        Optional<MaeModel> maePorId = repository.findById(id);
+
         if(!repository.existsById(id)){
            throw new NoExistsById(id);
         }
 
-         Optional<MaeModel> maeModel = repository.findById(id);
-        return maeModel;
+        return maePorId.map(maeMapper::map);
     }
 
     //updateById
-    public MaeModel updateMaeById(Long id, MaeModel atualizarMae) {
-            if(!repository.existsById(id)){
+    public MaeDTO updateMaeById(Long id, MaeDTO maeDTO) {
+        Optional<MaeModel> maeExistente = repository.findById(id);
+            if(!maeExistente.isPresent()){
                 throw new NoExistsById(id);
             }
-                atualizarMae.setId(id);
-                return repository.save(atualizarMae);
+                MaeModel maeAtualizado = maeMapper.map(maeDTO);
+                maeAtualizado.setId(id);
+                MaeModel maeSalva = repository.save(maeAtualizado);
+                return maeMapper.map(maeSalva);
         }
 
     //delete

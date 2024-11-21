@@ -1,5 +1,6 @@
 package MaesAtipicas.MaeAtipicas.controller;
 
+import MaesAtipicas.MaeAtipicas.DTO.MaeDTO;
 import MaesAtipicas.MaeAtipicas.model.MaeModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,26 +23,26 @@ public class MaeController {
     MaeRepository maeRepository;
 
     @GetMapping("/lista")
-    public ResponseEntity<List<MaeModel>> getAll() {
-        List<MaeModel> maeServices = maeService.getAll();
+    public ResponseEntity<List<MaeDTO>> getAll() {
+        List<MaeDTO> maeServices = maeService.getAll();
         return ResponseEntity.ok(maeServices);
     }
 
     @PostMapping("/criar")
-    public ResponseEntity<MaeModel> createMae(@RequestBody MaeModel maeModel) {
-            MaeModel maeSave = maeService.createMae(maeModel);
-            return ResponseEntity.ok(maeSave);
+    public ResponseEntity<MaeDTO> createMae(@RequestBody MaeDTO maeDTO) {
+            maeDTO = maeService.createMae(maeDTO);
+            return ResponseEntity.ok(maeDTO);
     }
 
     @GetMapping("/listar/{id}")  // Buscar mãe por ID
-    public ResponseEntity<Optional<MaeModel>> getMaeById(@PathVariable Long id) {
-        Optional<MaeModel> maeFind = maeService.getMaeById(id);
-        return new ResponseEntity<>(maeFind, HttpStatus.OK);
+    public ResponseEntity<Optional<MaeDTO>> getMaeById(@PathVariable Long id) {
+        Optional<MaeDTO> maeDTO = maeService.getMaeById(id);
+        return new ResponseEntity<>(maeDTO, HttpStatus.OK);
     }
 
     @PutMapping("/atualizar/{id}")
-    public ResponseEntity<MaeModel> updateMaeById(@PathVariable Long id,@RequestBody MaeModel atualizarMae){
-            MaeModel updatedMae = maeService.updateMaeById(id, atualizarMae);
+    public ResponseEntity<MaeDTO> updateMaeById(@PathVariable Long id,@RequestBody MaeDTO atualizarMae){
+            MaeDTO updatedMae = maeService.updateMaeById(id, atualizarMae);
             return ResponseEntity.ok(updatedMae);
 
     }
