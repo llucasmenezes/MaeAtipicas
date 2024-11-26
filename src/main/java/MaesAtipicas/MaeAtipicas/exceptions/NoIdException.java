@@ -1,7 +1,7 @@
 package MaesAtipicas.MaeAtipicas.exceptions;
 
-public class NoId extends RuntimeException {
-    public NoId(Long id) {
+public class NoIdException extends RuntimeException {
+    public NoIdException(Long id) {
         super("nao existe usuarios");
     }
 }

@@ -2,7 +2,7 @@ package MaesAtipicas.MaeAtipicas.service;
 
 import MaesAtipicas.MaeAtipicas.DTO.MaeDTO;
 import MaesAtipicas.MaeAtipicas.exceptions.CpfDuplicadoException;
-import MaesAtipicas.MaeAtipicas.exceptions.NoExistsById;
+import MaesAtipicas.MaeAtipicas.exceptions.NoExistsByIdException;
 import MaesAtipicas.MaeAtipicas.mapper.MaeMapper;
 import MaesAtipicas.MaeAtipicas.model.MaeModel;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class MaeService {
     }
 
 
-    //findALl
+
     public List<MaeDTO> getAll(){
         List<MaeModel> maes = repository.findAll();
         return maes.stream()
@@ -34,7 +34,7 @@ public class MaeService {
                    .collect(Collectors.toList());
     }
 
-    //create
+
     public MaeDTO createMae(MaeDTO maeDTO){
         MaeModel maeModel = maeMapper.map(maeDTO);
         if(repository.existsByCpf(maeDTO.getCpf())) {
@@ -44,22 +44,22 @@ public class MaeService {
         return maeMapper.map(maeModel);
     }
 
-    //findById
+
     public Optional<MaeDTO> getMaeById(Long id){
         Optional<MaeModel> maePorId = repository.findById(id);
 
         if(!repository.existsById(id)){
-           throw new NoExistsById(id);
+           throw new NoExistsByIdException(id);
         }
 
         return maePorId.map(maeMapper::map);
     }
 
-    //updateById
+
     public MaeDTO updateMaeById(Long id, MaeDTO maeDTO) {
         Optional<MaeModel> maeExistente = repository.findById(id);
             if(!maeExistente.isPresent()){
-                throw new NoExistsById(id);
+                throw new NoExistsByIdException(id);
             }
                 MaeModel maeAtualizado = maeMapper.map(maeDTO);
                 maeAtualizado.setId(id);
@@ -68,10 +68,10 @@ public class MaeService {
                 return maeMapper.map(maeSalva);
         }
 
-    //delete
+
     public void deleteMae(Long id){
         if(!repository.existsById(id)){
-            throw new NoExistsById(id);
+            throw new NoExistsByIdException(id);
         }
         repository.deleteById(id);
     }

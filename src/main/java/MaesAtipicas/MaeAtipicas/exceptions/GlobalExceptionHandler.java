@@ -15,14 +15,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(NoExistsById.class)
-    public ResponseEntity<ErrorResponse> handleNoExistsById(NoExistsById e){
+    @ExceptionHandler(NoExistsByIdException.class)
+    public ResponseEntity<ErrorResponse> handleNoExistsById(NoExistsByIdException e){
         ErrorResponse errorResponse = new ErrorResponse("Usuario nao encontrado!", e.getMessage());
         return  new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(NoId.class)
-    public ResponseEntity<ErrorResponse> handleNoId(NoId e){
+    @ExceptionHandler(NoIdException.class)
+    public ResponseEntity<ErrorResponse> handleNoId(NoIdException e){
         ErrorResponse errorResponse = new ErrorResponse("Nenhum usuario", e.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
