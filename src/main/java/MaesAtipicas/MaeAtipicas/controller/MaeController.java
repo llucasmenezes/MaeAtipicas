@@ -2,6 +2,7 @@ package MaesAtipicas.MaeAtipicas.controller;
 
 import MaesAtipicas.MaeAtipicas.DTO.MaeDTO;
 import MaesAtipicas.MaeAtipicas.model.MaeModel;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,15 +13,16 @@ import MaesAtipicas.MaeAtipicas.service.MaeService;
 import java.util.List;
 import java.util.Optional;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/mae")
 public class MaeController {
 
     @Autowired
-    MaeService maeService;
+    private final MaeService maeService;
 
     @Autowired
-    MaeRepository maeRepository;
+   private final MaeRepository maeRepository;
 
     @GetMapping("/lista")
     public ResponseEntity<List<MaeDTO>> getAll() {
