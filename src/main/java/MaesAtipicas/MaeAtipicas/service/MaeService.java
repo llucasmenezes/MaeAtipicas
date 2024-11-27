@@ -5,6 +5,7 @@ import MaesAtipicas.MaeAtipicas.exceptions.CpfDuplicadoException;
 import MaesAtipicas.MaeAtipicas.exceptions.NoExistsByIdException;
 import MaesAtipicas.MaeAtipicas.mapper.MaeMapper;
 import MaesAtipicas.MaeAtipicas.model.MaeModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import MaesAtipicas.MaeAtipicas.repository.MaeRepository;
 
@@ -16,8 +17,9 @@ import java.util.stream.Collectors;
 @Service
 public class MaeService {
 
-
+    @Autowired
     MaeRepository repository;
+    @Autowired
     private final MaeMapper maeMapper;
 
     public MaeService(MaeRepository repository, MaeMapper maeMapper){
@@ -30,8 +32,8 @@ public class MaeService {
     public List<MaeDTO> getAll(){
         List<MaeModel> maes = repository.findAll();
         return maes.stream()
-                   .map(maeMapper::map)
-                   .collect(Collectors.toList());
+                .map(maeMapper::map)
+                .collect(Collectors.toList());
     }
 
 

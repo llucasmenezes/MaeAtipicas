@@ -19,11 +19,4 @@ public class MaeDTO {
     private List<AddressModel> addressModel;
     private String email;
     private String celular;
-
-
-    private String state;
-    private String city;
-    private String neighborhood;
-    private String address;
-    private String zip_code;
 }

@@ -26,4 +26,14 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse("Nenhum usuario", e.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGenericException(Exception e){
+        // Log detalhado para identificar a origem do erro
+        e.printStackTrace();  // Ou use algum framework de logging, como SLF4J
+
+        ErrorResponse errorResponse = new ErrorResponse("Erro Interno do Servidor", e.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }
