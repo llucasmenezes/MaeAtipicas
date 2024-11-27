@@ -33,16 +33,6 @@ public class MaeModel {
     @Column(name = "celular")
     private String celular;
 
-    private String state;
-
-    private String city;
-
-    private String neighborhood;
-
-    private String address;
-
-    private String zip_code;
-
     @JsonIgnore
     @OneToMany(mappedBy = "maeModel")
     private List<AddressModel> adressModel;
