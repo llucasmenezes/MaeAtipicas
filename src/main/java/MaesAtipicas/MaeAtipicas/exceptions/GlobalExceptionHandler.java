@@ -11,26 +11,20 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(CpfDuplicadoException.class)
     public ResponseEntity<ErrorResponse> handleCpfDuplicadoException(CpfDuplicadoException e){
-        ErrorResponse errorResponse = new ErrorResponse("Cpf Existente!", e.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse("Erro ao se cadastrar... ",e.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NoExistsByIdException.class)
     public ResponseEntity<ErrorResponse> handleNoExistsById(NoExistsByIdException e){
-        ErrorResponse errorResponse = new ErrorResponse("Usuario nao encontrado!", e.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse("Ops... mãe não encontrada", e.getMessage());
         return  new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(NoIdException.class)
-    public ResponseEntity<ErrorResponse> handleNoId(NoIdException e){
-        ErrorResponse errorResponse = new ErrorResponse("Nenhum usuario", e.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGenericException(Exception e){
-        // Log detalhado para identificar a origem do erro
-        e.printStackTrace();  // Ou use algum framework de logging, como SLF4J
+        e.printStackTrace();
 
         ErrorResponse errorResponse = new ErrorResponse("Erro Interno do Servidor", e.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
