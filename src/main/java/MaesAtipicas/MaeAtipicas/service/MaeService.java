@@ -40,7 +40,8 @@ public class MaeService {
     public MaeDTO createMae(MaeDTO maeDTO){
         MaeModel maeModel = maeMapper.map(maeDTO);
         if(repository.existsByCpf(maeDTO.getCpf())) {
-            throw new CpfDuplicadoException(maeDTO.getCpf());
+            String cpfFormatado = maeDTO.getCpf().substring(0, 3) + ".***.**" + maeDTO.getCpf().substring(10);
+            throw new CpfDuplicadoException(cpfFormatado);
         }
         maeModel = repository.save(maeModel);
         return maeMapper.map(maeModel);
