@@ -29,7 +29,7 @@ public class AddressModel {
 
     private String country;
 
-    @ManyToOne
-    @JoinColumn(name = "mae_id", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "mae_id", nullable = false, unique = true)
     private MaeModel maeModel;
 }
