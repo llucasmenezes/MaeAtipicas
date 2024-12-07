@@ -16,7 +16,7 @@ public class MaeDTO {
     private String cpf;
     private String name;
     private String lastName;
-    private List<AddressModel> addressModel;
+    private AddressModel addressModel;
     private String email;
     private String celular;
 }
