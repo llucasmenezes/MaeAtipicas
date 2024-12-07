@@ -34,6 +34,6 @@ public class MaeModel {
     private String celular;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "maeModel")
-    private List<AddressModel> adressModel;
+    @OneToOne(mappedBy = "maeModel", cascade = CascadeType.ALL)
+    private AddressModel adressModel;
 }
