@@ -4,6 +4,8 @@ import MaesAtipicas.MaeAtipicas.DTO.AddressDTO;
 import MaesAtipicas.MaeAtipicas.exceptions.CpfDuplicadoException;
 import MaesAtipicas.MaeAtipicas.exceptions.NoExistsByIdException;
 import MaesAtipicas.MaeAtipicas.mapper.AddressMapper;
+import MaesAtipicas.MaeAtipicas.model.MaeModel;
+import MaesAtipicas.MaeAtipicas.repository.MaeRepository;
 import lombok.AllArgsConstructor;
 import MaesAtipicas.MaeAtipicas.model.AddressModel;
 import org.springframework.stereotype.Service;
@@ -18,8 +20,8 @@ import java.util.stream.Collectors;
 public class AddressService {
 
    private final AddressRepository repository;
-    private final AddressMapper addressMapper;
-
+   private final AddressMapper addressMapper;
+   private final MaeRepository maeRepository;
 
 
 
@@ -33,13 +35,20 @@ public class AddressService {
 
     public AddressDTO createAddress(AddressDTO addressDTO) {
         AddressModel addressModel = addressMapper.map(addressDTO);
-        if(!repository.existsById(addressDTO.getId())) {
-            throw new CpfDuplicadoException("endereco já existente");
+
+
+        if (addressDTO.getMaeId() != null) {
+            MaeModel maeModel = maeRepository.findById(addressDTO.getMaeId())
+                    .orElseThrow(() -> new NoExistsByIdException(addressDTO.getMaeId()));
+            addressModel.setMaeModel(maeModel);
+            maeModel.setAdressModel(addressModel); // Sincroniza a relação bidirecional
         }
 
         addressModel = repository.save(addressModel);
         return addressMapper.map(addressModel);
     }
+
+
 
 
     public AddressDTO updateAddress(Long id, AddressDTO addressDTO){
