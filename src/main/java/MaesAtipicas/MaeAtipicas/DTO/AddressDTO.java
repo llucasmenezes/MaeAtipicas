@@ -16,5 +16,5 @@ public class AddressDTO {
     private String state;
     private String postalcode;
     private String country;
-    private MaeModel maeModel;
+    private Long maeId;
 }
