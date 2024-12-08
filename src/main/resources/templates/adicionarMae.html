@@ -11,7 +11,7 @@
 <h1>Adicionar Nova Mãe</h1>
 <div class="form-container">
     <div th:if="${mensagem}" class="mensagem" th:text="${mensagem}"></div>
-    <form th:action="@{/maes/ui/salvar}" th:object="${mae}" method="post">
+    <form th:action="@{/mae/ui/salvar}" th:object="${mae}" method="post">
         <label for="name">Nome:</label>
         <input type="text" id="name" th:field="*{name}" required />
 
