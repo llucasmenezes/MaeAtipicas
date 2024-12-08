@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping(name = "/endereco")
+@RequestMapping("/endereco")
 public class AddressController {
 
     @Autowired
