@@ -33,7 +33,7 @@ As principais tecnologias e ferramentas usadas no desenvolvimento incluem:
 
 - **Java**: Linguagem principal do backend.  
 - **Spring Boot**: Framework para acelerar o desenvolvimento do backend.  
-- **MySQL**: Banco de dados para armazenamento de informações.  
+- **H2**: Banco de dados para armazenamento de informações.  
 - **Maven**: Gerenciador de dependências.  
 - **JUnit**: Para testes automatizados do backend.  
 
